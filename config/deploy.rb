@@ -1,4 +1,6 @@
-require 'dotenv'
+# frozen_string_literal: true
+
+require "dotenv"
 
 # Don't change these unless you know what you're doing
 set :pty,             true
@@ -9,7 +11,7 @@ set :deploy_via,      :remote_cache
 # Default value for :linked_files is []
 # set :linked_files, %w{config/database.yml}
 set :linked_files, %w{.env config/master.key}
-append :linked_dirs, '.bundle'
+append :linked_dirs, ".bundle"
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets public/uploads}
@@ -26,7 +28,7 @@ set :keep_releases, 5
 # set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 namespace :puma do
-  desc 'Create Directories for Puma Pids and Socket'
+  desc "Create Directories for Puma Pids and Socket"
   task :make_dirs do
     on roles(:app) do
       execute "mkdir #{shared_path}/tmp/sockets -p"
@@ -41,9 +43,9 @@ before "deploy:assets:precompile", "deploy:yarn_install"
 
 namespace :deploy do
   # Trigger the task before publishing
-  before 'deploy:publishing', 'db:seed_fu'
+  before "deploy:publishing", "db:seed_fu"
 
-  desc 'Run rake yarn:install'
+  desc "Run rake yarn:install"
   task :yarn_install do
     on roles(:app) do
       within release_path do
@@ -52,11 +54,11 @@ namespace :deploy do
     end
   end
 
-  desc 'Initial Deploy'
+  desc "Initial Deploy"
   task :initial do
     on roles(:app) do
-      before 'deploy:restart', 'puma:start'
-      invoke 'deploy'
+      before "deploy:restart", "puma:start"
+      invoke "deploy"
     end
   end
 
@@ -65,12 +67,12 @@ namespace :deploy do
 end
 
 namespace :db do
-  desc 'Resets DB without create/drop'
+  desc "Resets DB without create/drop"
   task :reset do
     on primary :db do
       within release_path do
         with rails_env: fetch(:stage) do
-          execute :rake, 'db:reset DISABLE_DATABASE_ENVIRONMENT_CHECK=1'
+          execute :rake, "db:reset DISABLE_DATABASE_ENVIRONMENT_CHECK=1"
         end
       end
     end
