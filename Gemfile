@@ -23,6 +23,8 @@ gem "rubocop", require: false
 gem "rubocop-rails", require: false
 gem "rubocop-performance", require: false
 
+gem "react-rails"
+
 gem "mysql2"
 
 # Seed migration

@@ -21,3 +21,11 @@ Ruby version 2.6.3
 rails db:migrate
 rails db:seed
 ```
+
+## Frontend development
+Find more detail here https://github.com/reactjs/react-rails
+
+## Running server
+```
+rails s
+```
